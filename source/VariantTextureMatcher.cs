@@ -16,14 +16,19 @@ internal static class VariantTextureMatcher
         }
 
         List<string> variantCodes = variants.GetAsStringArray();
-        foreach ((string key, Dictionary<string, CompositeTexture> textures) in texturesByType)
+        foreach (var match in texturesByType
+                     .Select((entry, index) => new
+                     {
+                         entry.Key,
+                         entry.Value,
+                         Index = index,
+                         Specificity = GetSpecificity(entry.Key)
+                     })
+                     .Where(entry => MatchesAllClauses(entry.Key, variantCodes))
+                     .OrderBy(entry => entry.Specificity)
+                     .ThenBy(entry => entry.Index))
         {
-            if (!MatchesAllClauses(key, variantCodes))
-            {
-                continue;
-            }
-
-            foreach ((string textureCode, CompositeTexture texture) in textures)
+            foreach ((string textureCode, CompositeTexture texture) in match.Value)
             {
                 result[textureCode] = texture;
             }
@@ -79,5 +84,17 @@ internal static class VariantTextureMatcher
             : [key];
 
         return clauses.All(clause => variantCodes.Any(variant => WildcardUtil.Match(clause, variant)));
+    }
+
+    private static int GetSpecificity(string key)
+    {
+        string[] clauses = key.Contains("::", StringComparison.Ordinal)
+            ? key.Split("::")
+            : [key];
+
+        int literalCharacters = clauses.Sum(clause => clause.Count(character => character != '*' && character != '?'));
+        int wildcardCharacters = clauses.Sum(clause => clause.Count(character => character == '*' || character == '?'));
+
+        return clauses.Length * 1000 + literalCharacters - wildcardCharacters;
     }
 }

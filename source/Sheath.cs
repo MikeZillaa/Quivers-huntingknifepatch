@@ -345,14 +345,25 @@ public class SheathBehavior : ToolBag
 
     private void TrySetVariantFromStoredStack(Variants variants, ItemSlot sheathSlot, string targetVariantCode, string defaultVariantValue, ItemStack? storedStack, params string[] sourceVariantCodes)
     {
+        if (!IsStoredVisualVariantCode(targetVariantCode)) return;
+
         string variantValue = GetStoredStackVariant(storedStack, targetVariantCode, sourceVariantCodes) ?? defaultVariantValue;
         SetVariant(variants, sheathSlot, targetVariantCode, variantValue);
     }
 
     private void TrySetVariantFromStoredStack(Variants variants, ItemStack sheathStack, string targetVariantCode, string defaultVariantValue, ItemStack? storedStack, params string[] sourceVariantCodes)
     {
+        if (!IsStoredVisualVariantCode(targetVariantCode)) return;
+
         string variantValue = GetStoredStackVariant(storedStack, targetVariantCode, sourceVariantCodes) ?? defaultVariantValue;
         SetVariant(variants, sheathStack, targetVariantCode, variantValue);
+    }
+
+    private static bool IsStoredVisualVariantCode(string variantCode)
+    {
+        return variantCode.StartsWith("right_", StringComparison.Ordinal)
+            || variantCode.StartsWith("left_", StringComparison.Ordinal)
+            || variantCode.StartsWith("bag_slot_", StringComparison.Ordinal);
     }
 
     private static string? GetStoredStackVariant(ItemStack? storedStack, string targetVariantCode, params string[] sourceVariantCodes)
