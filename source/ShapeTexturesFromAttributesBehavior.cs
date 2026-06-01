@@ -154,7 +154,7 @@ public class ShapeTexturesFromAttributes : CollectibleBehavior, IContainedMeshSo
             stexSource.textures[textureCode] = texture;
         }
 
-        ShapeOverlayHelper.BakeVariantTextures(_clientApi, stexSource, variants, TexturesByType, prefixedTextureCodes, AddOverlayPrefix ? overlayPrefix : "");
+        VariantTextureMatcher.BakeVariantTextures(_clientApi, stexSource, variants, TexturesByType, prefixedTextureCodes, AddOverlayPrefix ? overlayPrefix : "");
 
         _clientApi?.Tesselator.TesselateShape("ShapeTexturesFromAttributes behavior", shape, out mesh, stexSource, quantityElements: rcshape.QuantityElements, selectiveElements: rcshape.SelectiveElements);
         return mesh;
@@ -193,21 +193,11 @@ public class ShapeTexturesFromAttributes : CollectibleBehavior, IContainedMeshSo
 
         Variants variants = Variants.FromStack(stack);
         ICoreClientAPI capi = _api as ICoreClientAPI;
-        if (variants.FindByVariant(texturesByType, out Dictionary<string, CompositeTexture> _textures))
+        foreach ((string textureCode, CompositeTexture texture) in VariantTextureMatcher.GetMatchingTextures(variants, texturesByType))
         {
-            foreach ((string textureCode, CompositeTexture texture) in _textures)
-            {
-                CompositeTexture ctex = texture.Clone();
-                ctex = variants.ReplacePlaceholders(ctex);
-                if (!_api.Assets.Exists(ctex.Base.CopyWithPathPrefixAndAppendixOnce("textures/", ".png")))
-                {
-                    ctex.Base.Path = "unknown";
-                    ctex.Base.Domain = "game";
-                }
-                ctex.Bake(_api.Assets);
-                intoDict[texturePrefixCode + textureCode] = ctex;
-                shape.Textures[textureCode] = ctex.Baked.BakedName;
-            }
+            CompositeTexture ctex = VariantTextureMatcher.BakeTexture(_api, variants, texture);
+            intoDict[texturePrefixCode + textureCode] = ctex;
+            shape.Textures[textureCode] = ctex.Baked.BakedName;
         }
     }
 

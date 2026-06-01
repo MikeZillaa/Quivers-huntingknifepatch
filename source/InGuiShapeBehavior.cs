@@ -119,7 +119,7 @@ public class ShapeReplacement : CollectibleBehavior, IContainedMeshSource, IShap
             stexSource.textures[textureCode] = texture;
         }
 
-        ShapeOverlayHelper.BakeVariantTextures(_clientApi, stexSource, variants, TexturesByType, prefixedTextureCodes, AddOverlayPrefix ? overlayPrefix : "");
+        VariantTextureMatcher.BakeVariantTextures(_clientApi, stexSource, variants, TexturesByType, prefixedTextureCodes, AddOverlayPrefix ? overlayPrefix : "");
 
         _clientApi?.Tesselator.TesselateShape("InGuiShape behavior", shape, out mesh, stexSource, quantityElements: rcshape.QuantityElements, selectiveElements: rcshape.SelectiveElements);
         return mesh;
