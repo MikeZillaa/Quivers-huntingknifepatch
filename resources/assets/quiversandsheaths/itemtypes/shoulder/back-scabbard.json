@@ -95,6 +95,14 @@
           }
         },
         "textures": {
+          "*": {
+            "leather": {
+              "base": "game:block/leather/plain"
+            },
+            "metal": {
+              "base": "game:block/metal/plate/brass"
+            }
+          },
           "metal-*::leather-*::right_metal-*::right_leather-*::right_wood-*": {
             "leather": {
               "base": "game:block/leather/{leather}"
@@ -150,6 +158,14 @@
           }
         },
         "textures": {
+          "*": {
+            "belt-waist-plain-material": {
+              "base": "game:block/leather/plain"
+            },
+            "belt-waist-plain-metal": {
+              "base": "game:block/metal/plate/brass"
+            }
+          },
           "metal-*::leather-*": {
             "belt-waist-plain-material": {
               "base": "game:block/leather/{leather}"
@@ -194,7 +210,13 @@
       "stacks": [
         {
           "type": "item",
-          "code": "shoulderbag-{category}-{subtype}-{type}"
+          "code": "shoulderbag-{category}-{subtype}-{type}",
+          "attributes": {
+            "types": {
+              "leather": "plain",
+              "metal": "brass"
+            }
+          }
         },
         {
           "type": "item",
