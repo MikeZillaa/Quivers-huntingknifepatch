@@ -10,8 +10,8 @@
 	"textureSizes": {
 	},
 	"textures": {
-		"leather": "block/leather/plain",
-		"metal": "block/metal/plate/brass"
+		"leather": "game:block/leather/plain",
+		"metal": "game:block/metal/plate/brass"
 	},
 	"elements": [
 		{

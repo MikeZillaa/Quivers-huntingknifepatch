@@ -67,14 +67,56 @@ internal static class VariantTextureMatcher
     public static CompositeTexture BakeTexture(ICoreAPI api, Variants variants, CompositeTexture texture)
     {
         CompositeTexture ctex = variants.ReplacePlaceholders(texture.Clone());
-        if (!api.Assets.Exists(ctex.Base.CopyWithPathPrefixAndAppendixOnce("textures/", ".png")))
+        if (!TextureExists(api, ctex.Base))
         {
-            ctex.Base.Path = "unknown";
-            ctex.Base.Domain = "game";
+            AssetLocation? gameLocation = TryGetGameTextureLocation(api, ctex.Base);
+            if (gameLocation != null)
+            {
+                ctex.Base = gameLocation;
+            }
+            else
+            {
+                ctex.Base.Path = "unknown";
+                ctex.Base.Domain = "game";
+            }
         }
         ctex.Bake(api.Assets);
 
         return ctex;
+    }
+
+    private static bool TextureExists(ICoreAPI api, AssetLocation? location)
+    {
+        return location != null && api.Assets.Exists(location.CopyWithPathPrefixAndAppendixOnce("textures/", ".png"));
+    }
+
+    private static AssetLocation? TryGetGameTextureLocation(ICoreAPI api, AssetLocation? location)
+    {
+        if (location == null || location.Domain == "game")
+        {
+            return null;
+        }
+
+        string path = location.Path.Replace('\\', '/');
+        if (!IsLikelyVanillaTexturePath(path))
+        {
+            return null;
+        }
+
+        AssetLocation gameLocation = location.Clone();
+        gameLocation.Domain = "game";
+        gameLocation.Path = path;
+        return TextureExists(api, gameLocation) ? gameLocation : null;
+    }
+
+    private static bool IsLikelyVanillaTexturePath(string path)
+    {
+        return path.StartsWith("block/", StringComparison.Ordinal)
+            || path.StartsWith("item/", StringComparison.Ordinal)
+            || path.StartsWith("entity/", StringComparison.Ordinal)
+            || path.StartsWith("environment/", StringComparison.Ordinal)
+            || path.StartsWith("gui/", StringComparison.Ordinal)
+            || path.StartsWith("particle/", StringComparison.Ordinal);
     }
 
     private static bool MatchesAllClauses(string key, List<string> variantCodes)

@@ -179,9 +179,23 @@ public class ShapeTexturesFromAttributes : CollectibleBehavior, IContainedMeshSo
 
     void IAttachableToEntity.CollectTextures(ItemStack stack, Shape shape, string texturePrefixCode, Dictionary<string, CompositeTexture> intoDict)
     {
+        if (_api == null) return;
+
+        Variants variants = Variants.FromStack(stack);
+
+        if (shape.Textures != null)
+        {
+            foreach ((string textureCode, AssetLocation textureLocation) in shape.Textures.ToArray())
+            {
+                CompositeTexture ctex = VariantTextureMatcher.BakeTexture(_api, variants, new CompositeTexture(textureLocation));
+                AddAttachableTexture(shape, intoDict, texturePrefixCode, textureCode, ctex);
+            }
+        }
+
         foreach ((string textureCode, CompositeTexture texture) in stack.Item.Textures)
         {
-            shape.Textures[textureCode] = texture.Baked.BakedName;
+            CompositeTexture ctex = VariantTextureMatcher.BakeTexture(_api, variants, texture);
+            AddAttachableTexture(shape, intoDict, texturePrefixCode, textureCode, ctex);
         }
 
         Dictionary<string, Dictionary<string, CompositeTexture>> texturesByType = new();
@@ -191,12 +205,25 @@ public class ShapeTexturesFromAttributes : CollectibleBehavior, IContainedMeshSo
             texturesByType = fromAttributes.texturesByType;
         }
 
-        Variants variants = Variants.FromStack(stack);
-        ICoreClientAPI capi = _api as ICoreClientAPI;
         foreach ((string textureCode, CompositeTexture texture) in VariantTextureMatcher.GetMatchingTextures(variants, texturesByType))
         {
             CompositeTexture ctex = VariantTextureMatcher.BakeTexture(_api, variants, texture);
-            intoDict[texturePrefixCode + textureCode] = ctex;
+            AddAttachableTexture(shape, intoDict, texturePrefixCode, textureCode, ctex);
+        }
+    }
+
+    private static void AddAttachableTexture(Shape shape, Dictionary<string, CompositeTexture> intoDict, string texturePrefixCode, string textureCode, CompositeTexture ctex)
+    {
+        string prefixedTextureCode = textureCode.StartsWith(texturePrefixCode, StringComparison.Ordinal)
+            ? textureCode
+            : texturePrefixCode + textureCode;
+
+        intoDict[prefixedTextureCode] = ctex;
+
+        shape.Textures ??= new Dictionary<string, AssetLocation>();
+        if (ctex.Baked?.BakedName != null)
+        {
+            shape.Textures[prefixedTextureCode] = ctex.Baked.BakedName;
             shape.Textures[textureCode] = ctex.Baked.BakedName;
         }
     }
