@@ -1,6 +1,6 @@
 ﻿[
     {
-        "enabled":  true,
+        "enabled":  false,
         "ingredientPattern":  "LNL,LFL,LLL",
         "recipeGroup":  1,
         "ingredients":  {
@@ -34,7 +34,7 @@
                       ]
     },
     {
-        "enabled":  true,
+        "enabled":  false,
         "ingredientPattern":  "LNL,LFL,LLL",
         "recipeGroup":  2,
         "ingredients":  {

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <ModName>Quivers And Sheaths</ModName>
     <ModType>code</ModType>
-    <ModVersion>0.9.8</ModVersion>
+    <ModVersion>0.9.9</ModVersion>
     <ModId>quiversfork</ModId>
     <Description></Description>
     <Side>universal</Side>
@@ -33,77 +33,78 @@
   </PropertyGroup>
 
   <!-- Loading local settings file -->
-  <Import Project="Properties\localSettings.props" Condition="Exists('Properties\localSettings.props')" />
+  <Import Project="Properties/localSettings.props" Condition="Exists('Properties/localSettings.props')" />
   
   <!-- Paths -->
   <PropertyGroup>
     <ProjectDir>$(MSBuildProjectDirectory)</ProjectDir>
-    <OutputDir>bin\$(Configuration)\Mods</OutputDir>
-    <OutputPath>$(OutputDir)\$(ModId)</OutputPath>
-    <AssetsDir>$(ProjectDir)\resources\assets</AssetsDir>
-    <ModIconFile>$(ProjectDir)\resources\modicon.png</ModIconFile>
-    <ReleasesDir>$(ProjectDir)\Releases</ReleasesDir>
+    <OutputDir>bin/$(Configuration)/Mods</OutputDir>
+    <OutputPath>$(OutputDir)/$(ModId)</OutputPath>
+    <AssetsDir>$(ProjectDir)/resources/assets</AssetsDir>
+    <ModIconFile>$(ProjectDir)/resources/modicon.png</ModIconFile>
+    <ReleasesDir>$(ProjectDir)/Releases</ReleasesDir>
     <ReleaseFile>$(ModId)_$(ModVersion)</ReleaseFile>
-    <ReleasePath>$(ReleasesDir)\$(ReleaseFile).zip</ReleasePath>
-    <ReleasePathDev>$(ReleasesDir)\$(ReleaseFile)_dev.zip</ReleasePathDev>
-    <ExternalLibDir>$(ProjectDir)\external</ExternalLibDir>
+    <ReleasePath>$(ReleasesDir)/$(ReleaseFile).zip</ReleasePath>
+    <ReleasePathDev>$(ReleasesDir)/$(ReleaseFile)_dev.zip</ReleasePathDev>
+    <ExternalLibDir>$(ProjectDir)/external</ExternalLibDir>
     <GameDirectory Condition="'$(GameDirectory)' == ''">$(VINTAGE_STORY)</GameDirectory>
   </PropertyGroup>
 
   <!-- Startup settings -->
   <PropertyGroup>
-    <DataFolder>$(AppData)\$(DataFolderName)</DataFolder>
-    <AditionalModsFolder>$(AppData)\$(DataFolderName)\Mods</AditionalModsFolder>
+    <DataFolder>$(AppData)/$(DataFolderName)</DataFolder>
+    <AditionalModsFolder>$(AppData)/$(DataFolderName)/Mods</AditionalModsFolder>
     <WorldName>test_$(ModId)</WorldName>
-    <ModDir>$(ProjectDir)\$(OutputDir)</ModDir>
+    <ModDir>$(ProjectDir)/$(OutputDir)</ModDir>
     <EnterWorldCommand Condition="'$(EnterWorldOnStartup)' == 'true'">"-o" "$(WorldName)"</EnterWorldCommand>
   </PropertyGroup>
 
   <!-- Formatting JSON files -->
   <PropertyGroup>
-    <Scripts>$(ProjectDir)\scripts</Scripts>
-    <Formatter>$(Scripts)\formatter.ps1</Formatter>
+    <Scripts>$(ProjectDir)/scripts</Scripts>
+    <Formatter>$(Scripts)/formatter.ps1</Formatter>
+    <Packager>$(Scripts)/package_zip.py</Packager>
   </PropertyGroup>
   <ItemGroup>
-    <AssetsToFormat Include="$(AssetsDir)\$(ModId)\blocktypes" />
-    <AssetsToFormat Include="$(AssetsDir)\$(ModId)\itemtypes" />
-    <AssetsToFormat Include="$(AssetsDir)\$(ModId)\patches" />
-    <AssetsToFormat Include="$(AssetsDir)\$(ModId)\entities" />
-    <AssetsToFormat Include="$(AssetsDir)\$(ModId)\config\animations" />
+    <AssetsToFormat Include="$(AssetsDir)/$(ModId)/blocktypes" />
+    <AssetsToFormat Include="$(AssetsDir)/$(ModId)/itemtypes" />
+    <AssetsToFormat Include="$(AssetsDir)/$(ModId)/patches" />
+    <AssetsToFormat Include="$(AssetsDir)/$(ModId)/entities" />
+    <AssetsToFormat Include="$(AssetsDir)/$(ModId)/config/animations" />
   </ItemGroup>
 
   <!-- References to libraries that are being used in project -->
   <ItemGroup>
     <PackageReference Include="VSImGui" Version="0.0.6" />
     <Reference Include="$(GameDirectory)/**/*.dll" Private="false" Condition="'$(GameDirectory)' != ''" />
-    <Reference Include="AttributeRenderingLibrary" Condition="Exists('$(ExternalLibDir)\AttributeRenderingLibrary.dll')">
-      <HintPath>$(ExternalLibDir)\AttributeRenderingLibrary.dll</HintPath>
+    <Reference Include="AttributeRenderingLibrary" Condition="Exists('$(ExternalLibDir)/AttributeRenderingLibrary.dll')">
+      <HintPath>$(ExternalLibDir)/AttributeRenderingLibrary.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="configlib" Condition="Exists('$(ExternalLibDir)\configlib.dll')">
-      <HintPath>$(ExternalLibDir)\configlib.dll</HintPath>
+    <Reference Include="configlib" Condition="Exists('$(ExternalLibDir)/configlib.dll')">
+      <HintPath>$(ExternalLibDir)/configlib.dll</HintPath>
       <Private>false</Private>
     </Reference>
-    <Reference Include="OverhaullibLegacyCompat" Condition="Exists('$(ExternalLibDir)\OverhaullibLegacyCompat.dll')">
-      <HintPath>$(ExternalLibDir)\OverhaullibLegacyCompat.dll</HintPath>
+    <Reference Include="OverhaullibLegacyCompat" Condition="Exists('$(ExternalLibDir)/OverhaullibLegacyCompat.dll')">
+      <HintPath>$(ExternalLibDir)/OverhaullibLegacyCompat.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="resources\assets\quiversandsheaths\shapes\beltbag\quiver\belt\full\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\beltbag\quiver\shoulder\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\flutecase\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\saydak-shoulder\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\sheaths\front\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\sheaths\shoulder\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\slings\shields\" />
-    <Folder Include="resources\assets\quiversandsheaths\shapes\tools\tool-holders\" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/beltbag/quiver/belt/full/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/beltbag/quiver/shoulder/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/flutecase/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/saydak-shoulder/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/sheaths/front/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/sheaths/shoulder/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/slings/shields/" />
+    <Folder Include="resources/assets/quiversandsheaths/shapes/tools/tool-holders/" />
   </ItemGroup>
 
   <!-- Creating local settings file -->
-  <Target Name="EnsureSettingsJson" BeforeTargets="ModInfo" Condition="!Exists('Properties\localSettings.props')">
+  <Target Name="EnsureSettingsJson" BeforeTargets="ModInfo" Condition="!Exists('Properties/localSettings.props')">
     <MakeDir Directories="Properties" />
-    <WriteLinesToFile File="Properties\localSettings.props" Overwrite="true" Lines="&lt;Project&gt;&#xD;&#xA;  &lt;PropertyGroup&gt;&#xD;&#xA;    &lt;RunFormatter&gt;false&lt;/RunFormatter&gt;&#xD;&#xA;    &lt;DataFolderName&gt;VintagestoryData&lt;/DataFolderName&gt;&#xD;&#xA;    &lt;GameDirectory&gt;&lt;/GameDirectory&gt;&#xD;&#xA;    &lt;PackageDevBuild&gt;false&lt;/PackageDevBuild&gt;&#xD;&#xA;    &lt;EnterWorldOnStartup&gt;false&lt;/EnterWorldOnStartup&gt;&#xD;&#xA;    &lt;JsonIndent&gt;2&lt;/JsonIndent&gt;&#xD;&#xA;    &lt;JsonMaxLineLength&gt;200&lt;/JsonMaxLineLength&gt;&#xD;&#xA;  &lt;/PropertyGroup&gt;&#xD;&#xA;&lt;/Project&gt;" />
+    <WriteLinesToFile File="Properties/localSettings.props" Overwrite="true" Lines="&lt;Project&gt;&#xD;&#xA;  &lt;PropertyGroup&gt;&#xD;&#xA;    &lt;RunFormatter&gt;false&lt;/RunFormatter&gt;&#xD;&#xA;    &lt;DataFolderName&gt;VintagestoryData&lt;/DataFolderName&gt;&#xD;&#xA;    &lt;GameDirectory&gt;&lt;/GameDirectory&gt;&#xD;&#xA;    &lt;PackageDevBuild&gt;false&lt;/PackageDevBuild&gt;&#xD;&#xA;    &lt;EnterWorldOnStartup&gt;false&lt;/EnterWorldOnStartup&gt;&#xD;&#xA;    &lt;JsonIndent&gt;2&lt;/JsonIndent&gt;&#xD;&#xA;    &lt;JsonMaxLineLength&gt;200&lt;/JsonMaxLineLength&gt;&#xD;&#xA;  &lt;/PropertyGroup&gt;&#xD;&#xA;&lt;/Project&gt;" />
     <Error Text="Local settings file was missing, generated a new one. Run build again." />
   </Target>
 
@@ -147,12 +148,12 @@
 
   <!-- Copies modicon, assets folder and native libraries if they exist into output directory -->
   <Target Name="CopyFilesToOutput" AfterTargets="Format" BeforeTargets="BeforeBuild">
-    <RemoveDir Directories="$(OutputPath)assets" />
+    <RemoveDir Directories="$(OutputPath)/assets" />
     <Copy SourceFiles="$(ModIconFile)" DestinationFolder="$(OutputPath)" Condition="Exists('$(ModIconFile)')" />
     <ItemGroup>
-      <AssetsFolder Include="$(AssetsDir)\**\*.*" />
+      <AssetsFolder Include="$(AssetsDir)/**/*.*" />
     </ItemGroup>
-    <Copy SourceFiles="@(AssetsFolder)" DestinationFiles="@(AssetsFolder->'$(OutputPath)assets\%(RecursiveDir)%(Filename)%(Extension)')" Condition="Exists('$(AssetsDir)')" />
+    <Copy SourceFiles="@(AssetsFolder)" DestinationFiles="@(AssetsFolder->'$(OutputPath)/assets/%(RecursiveDir)%(Filename)%(Extension)')" Condition="Exists('$(AssetsDir)')" />
   </Target>
 
   <!-- Archives output directory into zip and puts it into Releases folder -->
@@ -160,13 +161,13 @@
     <Message Text="Pachaging into '$(ReleaseFile)'" Importance="high" />
     <MakeDir Directories="$(ReleasesDir)" />
     <Delete Files="$(ReleasePath)" />
-    <ZipDirectory SourceDirectory="$(OutputPath)" DestinationFile="$(ReleasePath)" />
+    <Exec Command="python &quot;$(Packager)&quot; &quot;$(OutputPath).&quot; &quot;$(ReleasePath)&quot;" />
   </Target>
   <Target Name="ZipFilesDev" AfterTargets="Build" Condition=" '$(Configuration)' == 'Debug' and '$(PackageDevBuild)' == 'true'">
     <Message Text="Pachaging into '$(ReleaseFile)'" Importance="high" />
     <MakeDir Directories="$(ReleasesDir)" />
     <Delete Files="$(ReleasePathDev)" />
-    <ZipDirectory SourceDirectory="$(OutputPath)" DestinationFile="$(ReleasePathDev)" />
+    <Exec Command="python &quot;$(Packager)&quot; &quot;$(OutputPath).&quot; &quot;$(ReleasePathDev)&quot;" />
   </Target>
 </Project>
 
