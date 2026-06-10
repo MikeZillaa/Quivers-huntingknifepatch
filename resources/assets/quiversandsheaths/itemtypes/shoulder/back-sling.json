@@ -76,22 +76,9 @@
       "name": "QuiversAndSheaths:ShapeTexturesFromAttributes",
       "properties": {
         "addOverlayPrefix": false,
-        "renderStoredStackOverlay": true,
-        "storedStackOverlay": {
-          "slotIndex": 0,
-          "name": "BackStoredWeapon",
-          "stepParentName": "UpperTorso",
-          "sourceSlotCode": "backgear",
-          "from": [ 0.8, 4.2, -0.6 ],
-          "to": [ 0.8, 4.2, -0.6 ],
-          "rotationOrigin": [ 0.8, 4.2, -0.6 ],
-          "rotationX": 0,
-          "rotationY": -86,
-          "rotationZ": -55
-        },
         "shape": {
           "right_slot-*::right_slot_state-full": {
-            "base": "quiversandsheaths:sheaths/back/back-sling"
+            "base": "quiversandsheaths:sheaths/back/polearms/full/{right_slot}"
           },
           "right_slot-*::right_slot_state-empty": {
             "base": "quiversandsheaths:sheaths/back/back-sling"
