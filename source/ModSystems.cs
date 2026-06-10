@@ -1,5 +1,6 @@
 using ConfigLib;
 using CombatOverhaul.Armor;
+using Vintagestory.API.Client;
 using Vintagestory.API.Common;
 
 namespace QuiversAndSheaths;
@@ -13,6 +14,9 @@ public sealed class QuiversAndSheathsSystem : ModSystem
 {
     public static QuiversAndSheathsSettings Settings { get; } = new();
 
+    private ICoreClientAPI? _clientApi;
+    private BackSlingStoredWeaponRenderer? _backSlingRenderer;
+
     public override void Start(ICoreAPI api)
     {
         api.RegisterCollectibleBehaviorClass("QuiversAndSheaths:ShapeTexturesFromAttributes", typeof(ShapeTexturesFromAttributes));
@@ -20,11 +24,31 @@ public sealed class QuiversAndSheathsSystem : ModSystem
         api.RegisterCollectibleBehaviorClass("QuiversAndSheaths:Sheath", typeof(SheathBehavior));
         api.RegisterCollectibleBehaviorClass("QuiversAndSheaths:Quiver", typeof(QuiverBehavior));
         api.RegisterCollectibleBehaviorClass("QuiversAndSheaths:VariantFromSlot", typeof(VariantFromSlotBehavior));
+        api.RegisterCollectibleBehaviorClass("QuiversAndSheaths:BackSlingRenderConfig", typeof(BackSlingRenderConfigBehavior));
 
         if (api.ModLoader.IsModEnabled("configlib"))
         {
             SubscribeToConfigChange(api);
         }
+    }
+
+    public override void StartClientSide(ICoreClientAPI api)
+    {
+        _clientApi = api;
+        _backSlingRenderer = new(api);
+        api.Event.RegisterRenderer(_backSlingRenderer, EnumRenderStage.Opaque, "quiversandsheaths-back-sling-stored-weapon");
+    }
+
+    public override void Dispose()
+    {
+        if (_clientApi != null && _backSlingRenderer != null)
+        {
+            _clientApi.Event.UnregisterRenderer(_backSlingRenderer, EnumRenderStage.Opaque);
+        }
+
+        _backSlingRenderer?.Dispose();
+        _backSlingRenderer = null;
+        _clientApi = null;
     }
 
     private static void SubscribeToConfigChange(ICoreAPI api)
