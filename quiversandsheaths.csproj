@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <!-- Mod info -->
   <PropertyGroup>
     <ModName>Quivers And Sheaths</ModName>
     <ModType>code</ModType>
-    <ModVersion>0.9.19</ModVersion>
+    <ModVersion>0.9.12</ModVersion>
     <ModId>quiversfork</ModId>
     <Description></Description>
     <Side>universal</Side>

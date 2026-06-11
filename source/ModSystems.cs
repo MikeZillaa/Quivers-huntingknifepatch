@@ -37,6 +37,7 @@ public sealed class QuiversAndSheathsSystem : ModSystem
         _clientApi = api;
         _backSlingRenderer = new(api);
         api.Event.RegisterRenderer(_backSlingRenderer, EnumRenderStage.Opaque, "quiversandsheaths-back-sling-stored-weapon");
+        BackSlingTransformTuningCommands.Register(api);
     }
 
     public override void Dispose()

@@ -92,9 +92,9 @@
           "*:hammer-*": {
             "transform": {
               "translation": {
-                "x": 0,
-                "y": 0,
-                "z": 0
+                "x": 0.6,
+                "y": -6.5,
+                "z": -1.2
               },
               "rotation": {
                 "x": 0,
@@ -112,9 +112,9 @@
           "*:axe-*": {
             "transform": {
               "translation": {
-                "x": 0,
+                "x": -1,
                 "y": 0.15,
-                "z": 0
+                "z": -0.7
               },
               "rotation": {
                 "x": 0,
@@ -132,9 +132,9 @@
           "*:pickaxe-*": {
             "transform": {
               "translation": {
-                "x": 0,
+                "x": 1,
                 "y": 0.1,
-                "z": 0
+                "z": 0.5
               },
               "rotation": {
                 "x": 0,
@@ -172,9 +172,9 @@
         },
         "transform": {
           "translation": {
-            "x": 6,
-            "y": 1.7,
-            "z": -4.45
+            "x": -3.5,
+            "y": -6.8,
+            "z": -1.45
           },
           "rotation": {
             "x": -90,
