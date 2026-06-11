@@ -20,7 +20,7 @@
           "HandleHotkey": true
         },
         "takeOutColor": "#999999",
-        "hotkey": { "hotkeyCode": "quiversandsheaths-swap-tool", "hotkeyName": "(CO) Swap tool", "hotkeyKey": "R" },
+        "hotkey": { "hotkeyCode": "quiversandsheaths-swap-flute-pouch", "hotkeyName": "(QS) Swap flute pouch", "hotkeyKey": "R" },
         "takeOutSlotIcon": "quiversandsheaths:takeout",
         "stateOverrideByStoredItem": {
           "*:chisel-*": "empty"
